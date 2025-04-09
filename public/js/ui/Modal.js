@@ -29,7 +29,6 @@ class Modal {
         Array.from(this.element.querySelectorAll('[data-dismiss="modal"]'));
     dismissButtons.forEach((el) => {
       el.addEventListener('click', (e) => {onClose(e)});
-      console.log(el);
     });
   }
 
