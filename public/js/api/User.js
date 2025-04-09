@@ -40,8 +40,10 @@ class User {
       url: this.URL + '/current',
       method: 'GET',
       callback: (err, response) => {
-        if (response && response.user) {
+        if (response.success) {
           this.setCurrent(response.user);
+        } else {
+          this.unsetCurrent();
         }
         callback(err, response);
       }
@@ -61,7 +63,7 @@ class User {
       responseType: 'json',
       data,
       callback: (err, response) => {
-        if (response && response.user) {
+        if (response.success) {
           this.setCurrent(response.user);
         }
         callback(err, response);
@@ -81,7 +83,7 @@ class User {
       method: 'POST',
       data,
       callback: (err, response) => {
-        if (response && response.success) {
+        if (response.success) {
           this.setCurrent(response.user);
         }
         callback(err, response);
@@ -97,9 +99,9 @@ class User {
     createRequest({
       url: this.URL + '/logout',
       method: 'POST',
-      data: data,
+      data: this.current(),
       callback: (err, response) => {
-        if (response && response.success) {
+        if (response.success) {
           this.unsetCurrent();
         }
         callback(err, response);

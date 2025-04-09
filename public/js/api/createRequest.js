@@ -7,7 +7,7 @@ const createRequest = (options = {}) => {
   xhr.responseType = 'json';
 
   if (options.method === 'GET') {
-    let url = options.data ? options.url + '?mail=' + options.data.mail +
+    let url = options.data ? options.url + '?mail=' + options.data.email +
             '&password=' + options.data.password :
                              options.url;
     xhr.open(options.method, url);
@@ -16,7 +16,7 @@ const createRequest = (options = {}) => {
     let formData = new FormData();
 
     formData.append('name', options.data.name);
-    formData.append('email', options.data.mail);
+    formData.append('email', options.data.email);
     formData.append('password', options.data.password);
     formData.append('id', options.data.id);
     formData.append('account_id', options.data.account_id);
@@ -27,9 +27,9 @@ const createRequest = (options = {}) => {
     let formData = new FormData();
 
     formData.append('name', options.data.name);
-    formData.append('type', options.data.name);
-    formData.append('sum', options.data.name);
-    formData.append('account_id', options.data.name);
+    formData.append('type', options.data.type);
+    formData.append('sum', options.data.sum);
+    formData.append('account_id', options.data.account_id);
 
     xhr.open(options.method, options.url);
     xhr.send(formData);

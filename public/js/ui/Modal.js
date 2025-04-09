@@ -28,7 +28,7 @@ class Modal {
     let dismissButtons =
         Array.from(this.element.querySelectorAll('[data-dismiss="modal"]'));
     dismissButtons.forEach((el) => {
-      el.addEventListener('click', (e) => {onClose(e)});
+      el.addEventListener('click', (e) => {this.onClose(e)});
     });
   }
 
@@ -38,19 +38,19 @@ class Modal {
    * */
   onClose(e) {
     e.preventDefault();
-    close();
+    this.close();
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display
    * со значением «block»
    * */
   open() {
-    this.element.classList.add('display');
+    this.element.style.display = 'block';
   }
   /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
   close() {
-    this.element.classList.remove('display');
+    this.element.style.display = '';
   }
 }

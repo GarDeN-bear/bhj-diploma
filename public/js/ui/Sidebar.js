@@ -40,33 +40,34 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    let menuItem = document.getElementsByName('menu-item_register').item(0);
+    let menuItem =
+        document.getElementsByClassName('menu-item_register').item(0);
     if (menuItem) {
       menuItem.addEventListener('click', (ev) => {
         ev.preventDefault();
 
-        App.getModal('modal-register').open();
-      });
-    }
-    menuItem = document.getElementsByName('menu-item_login').item(0);
-    if (menuItem) {
-      menuItem.addEventListener('click', (ev) => {
-        ev.preventDefault();
-
-        App.getModal('modal-login').open();
+        App.getModal('register').open();
       });
     }
 
-    menuItem = document.getElementsByName('menu-item_logout').item(0);
+    menuItem = document.getElementsByClassName('menu-item_login').item(0);
     if (menuItem) {
       menuItem.addEventListener('click', (ev) => {
         ev.preventDefault();
 
-        User.logout().then(response => {
-          if (response.success) {
+        App.getModal('login').open();
+      });
+    }
+
+    menuItem = document.getElementsByClassName('menu-item_logout').item(0);
+    if (menuItem) {
+      menuItem.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        User.logout((err, response) => {
+          if (response && response.success) {
             App.setState('init');
           }
-        });
+        })
       });
     }
   }
