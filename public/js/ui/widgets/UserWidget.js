@@ -13,7 +13,7 @@ class UserWidget {
    * */
   constructor(element) {
     if (!element) {
-      throw 'In Modal constructor element is empty';
+      throw 'In UserWidget constructor element is empty';
     }
     this.element = element;
   }

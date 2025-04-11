@@ -27,9 +27,6 @@ const createRequest = (options = {}) => {
     let formData = new FormData();
 
     formData.append('name', options.data.name);
-    formData.append('type', options.data.type);
-    formData.append('sum', options.data.sum);
-    formData.append('account_id', options.data.account_id);
 
     xhr.open(options.method, options.url);
     xhr.send(formData);

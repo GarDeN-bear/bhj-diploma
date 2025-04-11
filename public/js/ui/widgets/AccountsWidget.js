@@ -13,8 +13,13 @@ class AccountsWidget {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor( element ) {
-
+  constructor(element) {
+    if (!element) {
+      throw 'In AccountsWidget constructor element is empty';
+    }
+    this.element = element;
+    this.update();
+    this.registerEvents();
   }
 
   /**
@@ -25,7 +30,11 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+    this.element.querySelector('.create-account')
+        .addEventListener('click', () => {
+          App.getModal('createAccount').open();
+        });
+    // TODO Пробовал добавить addEventListener, но не вышло.
   }
 
   /**
@@ -39,7 +48,17 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+    if (!User.current()) {
+      return;
+    }
+    Account.list(User.current(), (err, response) => {
+      if (response.success) {
+        this.clear();
+        for (let i = 0; i < response.data.length; ++i) {
+          this.renderItem(response.data[i]);
+        }
+      }
+    });
   }
 
   /**
@@ -48,7 +67,9 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    Array.from(this.element.querySelectorAll('.account')).forEach(el => {
+      el.remove();
+    });
   }
 
   /**
@@ -58,8 +79,13 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount( element ) {
-
+  onSelectAccount(element) {
+    if (this.activeElement) {
+      this.activeElement.classList.remove('active');
+    }
+    element.classList.add('active');
+    App.showPage('transactions', {account_id: element.getAttribute('data-id')});
+    this.activeElement = element;
   }
 
   /**
@@ -67,8 +93,19 @@ class AccountsWidget {
    * отображения в боковой колонке.
    * item - объект с данными о счёте
    * */
-  getAccountHTML(item){
-
+  getAccountHTML(item) {
+    let li = document.createElement('li');
+    li.classList.add('account');
+    li.setAttribute('data-id', item.id);
+    li.innerHTML = `<a href="#">
+                        <span>${item.name}</span> /
+                        <span>${item.sum} ₽</span>
+                    </a>`;
+    li.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      this.onSelectAccount(li);
+    })
+    return li;
   }
 
   /**
@@ -77,7 +114,7 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem(data){
-
+  renderItem(data) {
+    this.element.insertAdjacentElement('beforeend', this.getAccountHTML(data));
   }
 }
