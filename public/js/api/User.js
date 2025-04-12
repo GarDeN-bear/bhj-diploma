@@ -11,8 +11,11 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    localStorage.setItem(
-        'user', JSON.stringify({id: user.id, name: user.name}));
+    localStorage.setItem('user', JSON.stringify({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }));
   }
 
   /**
@@ -84,7 +87,8 @@ class User {
       data,
       callback: (err, response) => {
         if (response.success) {
-          this.setCurrent(response.user);
+          let user = response.user;
+          this.setCurrent(user);
         }
         callback(err, response);
       }

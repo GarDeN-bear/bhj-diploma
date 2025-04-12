@@ -52,6 +52,7 @@ class AccountsWidget {
       return;
     }
     Account.list(User.current(), (err, response) => {
+      console.log(response);
       if (response.success) {
         this.clear();
         for (let i = 0; i < response.data.length; ++i) {

@@ -26,6 +26,12 @@
       "email": "demo@demoq",
       "password": "demo",
       "id": "12iofm1desm9a9zflm"
+    },
+    {
+      "name": "asdasd",
+      "email": "demo@demoasd",
+      "password": "demoa",
+      "id": "12iofm2i10m9ekaph1"
     }
   ],
   "accounts": [
@@ -72,6 +78,21 @@
       "name": "A",
       "user_id": "1",
       "id": "12iofmag11m9cytxwm"
+    },
+    {
+      "name": "a",
+      "user_id": "12iofm1desm9a9zflm",
+      "id": "12iofm2hbrm9ek8n3v"
+    },
+    {
+      "name": "a",
+      "user_id": "12iofm2i10m9ekaph1",
+      "id": "12iofm2i6em9ekaswr"
+    },
+    {
+      "name": "z",
+      "user_id": "12iofm2i10m9ekaph1",
+      "id": "12iofm2kkfm9ekka0v"
     }
   ],
   "transactions": [
@@ -209,6 +230,42 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "12iofm2hs8m9eka6pd",
+      "type": "income",
+      "name": "BitBear",
+      "sum": 200000,
+      "account_id": "12iofm2hbrm9ek8n3v",
+      "user_id": "12iofm1desm9a9zflm",
+      "created_at": "2025-04-12T18:40:45.168Z"
+    },
+    {
+      "id": "12iofm2injm9ekcq74",
+      "type": "income",
+      "name": "BitBear",
+      "sum": 200000,
+      "account_id": "12iofm2i6em9ekaswr",
+      "user_id": "12iofm2i10m9ekaph1",
+      "created_at": "2025-04-12T18:42:43.743Z"
+    },
+    {
+      "id": "12iofm2jbnm9ekexve",
+      "type": "income",
+      "name": "BitBear",
+      "sum": 200000,
+      "account_id": "12iofm2i6em9ekaswr",
+      "user_id": "12iofm2i10m9ekaph1",
+      "created_at": "2025-04-12T18:44:27.001Z"
+    },
+    {
+      "id": "12iofm2jgdm9ekjxks",
+      "type": "expense",
+      "name": "BitBear",
+      "sum": 200000,
+      "account_id": "12iofm2i6em9ekaswr",
+      "user_id": "12iofm2i10m9ekaph1",
+      "created_at": "2025-04-12T18:48:19.899Z"
     }
   ]
 }
