@@ -23,6 +23,7 @@ class Account extends Entity {
     createRequest(
         {url: Account.URL, method: 'PUT', data: data, callback: callback});
   }
+
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
@@ -31,5 +32,14 @@ class Account extends Entity {
   static list(data, callback) {
     createRequest(
         {url: Account.URL, method: 'GET', data: data, callback: callback});
+  }
+
+  /**
+   * Удаляет информацию о счёте или доходе/расходе
+   * (в зависимости от того, что наследуется от Entity)
+   * */
+  static remove(data, callback) {
+    createRequest(
+        {url: Account.URL, method: 'DELETE', data: data, callback: callback});
   }
 }

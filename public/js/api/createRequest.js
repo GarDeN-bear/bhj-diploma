@@ -9,13 +9,17 @@ const createRequest = (options = {}) => {
   if (options.method === 'GET') {
     let url = options.url;
     if (options.data) {
-      url +=
-          '?mail=' + options.data.email + '&password=' + options.data.password;
+      if (!options.data.account_id) {
+        url += '?mail=' + options.data.email +
+            '&password=' + options.data.password;
+      } else {
+        url += '?account_id=' + options.data.account_id;
+      }
     }
-    console.log(url);
-    xhr.open(options.method, url);
 
+    xhr.open(options.method, url);
     xhr.send();
+
   } else if (options.method === 'POST') {
     let formData = new FormData();
 

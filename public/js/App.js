@@ -73,7 +73,6 @@ class App {
    * Инициализирует формы
    * */
   static initForms() {
-    console.log('inti');
     this.forms = {
       login: new LoginForm(document.querySelector('#login-form')),
       register: new RegisterForm(document.querySelector('#register-form')),
@@ -133,7 +132,6 @@ class App {
    * */
   static showPage(pageName, options) {
     const page = this.getPage(pageName);
-    console.log(pageName);
     page.render(options);
   }
 

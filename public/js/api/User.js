@@ -15,6 +15,7 @@ class User {
       id: user.id,
       name: user.name,
       email: user.email,
+      password: user.password,
     }));
   }
 
@@ -88,6 +89,7 @@ class User {
       callback: (err, response) => {
         if (response.success) {
           let user = response.user;
+          user['password'] = data.password;
           this.setCurrent(user);
         }
         callback(err, response);

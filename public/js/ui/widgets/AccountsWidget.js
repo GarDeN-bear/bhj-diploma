@@ -23,6 +23,20 @@ class AccountsWidget {
   }
 
   /**
+   * Устанавливает текущий активный идентификатор счёта.
+   * */
+  static setCurrent(accountId) {
+    this.activeAccountId = accountId;
+  }
+
+  /**
+   * Возвращает текущий активный идентификатор счёта.
+   * */
+  static current() {
+    return this.activeAccountId;
+  }
+
+  /**
    * При нажатии на .create-account открывает окно
    * #modal-new-account для создания нового счёта
    * При нажатии на один из существующих счетов
@@ -52,7 +66,6 @@ class AccountsWidget {
       return;
     }
     Account.list(User.current(), (err, response) => {
-      console.log(response);
       if (response.success) {
         this.clear();
         for (let i = 0; i < response.data.length; ++i) {
@@ -87,6 +100,7 @@ class AccountsWidget {
     element.classList.add('active');
     App.showPage('transactions', {account_id: element.getAttribute('data-id')});
     this.activeElement = element;
+    AccountsWidget.setCurrent(element.getAttribute('data-id'));
   }
 
   /**
