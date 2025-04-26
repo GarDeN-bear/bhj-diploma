@@ -32,7 +32,9 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    return JSON.parse(localStorage.getItem('user'));
+    if (localStorage.getItem('user')) {
+      return JSON.parse(localStorage.getItem('user'));
+    }
   }
 
   /**
