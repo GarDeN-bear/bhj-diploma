@@ -1,4 +1,3 @@
-
 /**
  * Класс TransactionsPage управляет
  * страницей отображения доходов и
@@ -13,7 +12,7 @@ class TransactionsPage {
    * */
   constructor(element) {
     if (!element) {
-      throw 'In TransactionsPage constructor element is empty';
+      throw "In TransactionsPage constructor element is empty";
     }
     this.element = element;
     this.registerEvents();
@@ -26,7 +25,7 @@ class TransactionsPage {
     if (AccountsWidget.current() === undefined) {
       this.clear();
     } else {
-      let options = {'account_id': AccountsWidget.current()};
+      let options = { account_id: AccountsWidget.current() };
       this.render(options);
     }
   }
@@ -38,21 +37,25 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    Array.from(this.element.getElementsByClassName('transaction__remove'))
-        .forEach(el => {
-          el.addEventListener('click', () => {
-            this.removeTransaction(el.getAttribute('data-id'));
-          });
-        });
-    if (this.element.querySelector('.content-title').textContent ===
-        'Название счёта') {
+    Array.from(
+      this.element.getElementsByClassName("transaction__remove")
+    ).forEach((el) => {
+      el.addEventListener("click", () => {
+        this.removeTransaction(el.getAttribute("data-id"));
+      });
+    });
+    if (
+      this.element.querySelector(".content-title").textContent ===
+      "Название счёта"
+    ) {
       return;
     }
-    this.element.getElementsByClassName('remove-account')
-        .item(0)
-        .addEventListener('click', () => {
-          this.removeAccount();
-        });
+    this.element
+      .getElementsByClassName("remove-account")
+      .item(0)
+      .addEventListener("click", () => {
+        this.removeAccount();
+      });
   }
 
   /**
@@ -65,8 +68,11 @@ class TransactionsPage {
    * создания дохода и расхода для обновления приложения
    * */
   removeAccount() {
-    if (confirm('Do you want to delete account?')) {
-      let data = {'id': AccountsWidget.current()};
+    if (!this.lastOptions) {
+      return;
+    }
+    if (confirm("Do you want to delete account?")) {
+      let data = { id: AccountsWidget.current() };
       this.clear();
       Account.remove(data, (err, response) => {
         if (response && response.success) {
@@ -84,8 +90,8 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id) {
-    if (confirm('Do you want to delete transaction?')) {
-      Transaction.remove({'id': id}, (err, response) => {
+    if (confirm("Do you want to delete transaction?")) {
+      Transaction.remove({ id: id }, (err, response) => {
         if (response && response.success) {
           this.update();
         }
@@ -100,14 +106,17 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
+    if (!options) {
+      return;
+    }
     Account.get(options.account_id, (err, response) => {
       if (response && response.success) {
         this.clear();
         this.renderTitle(response.data.name);
         let transactionOptions = User.current();
-        transactionOptions['account_id'] = options.account_id;
+        transactionOptions["account_id"] = options.account_id;
         Transaction.list(options, (err, response) => {
-          if (response && response.success && (response.data.length > 0)) {
+          if (response && response.success && response.data.length > 0) {
             if (response.data[0].account_id === AccountsWidget.current()) {
               this.renderTransactions(response.data);
               this.registerEvents();
@@ -116,6 +125,7 @@ class TransactionsPage {
         });
       }
     });
+    this.lastOptions = options;
   }
 
   /**
@@ -124,15 +134,15 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-    this.element.querySelector('.content').innerHTML = '';
-    this.renderTitle('Название счёта');
+    this.element.querySelector(".content").innerHTML = "";
+    this.renderTitle("Название счёта");
   }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    this.element.querySelector('.content-title').textContent = name;
+    this.element.querySelector(".content-title").textContent = name;
   }
 
   /**
@@ -141,16 +151,26 @@ class TransactionsPage {
    * */
   formatDate(date) {
     const months = [
-      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
-      'сентября', 'октября', 'ноября', 'декабря'
+      "января",
+      "февраля",
+      "марта",
+      "апреля",
+      "мая",
+      "июня",
+      "июля",
+      "августа",
+      "сентября",
+      "октября",
+      "ноября",
+      "декабря",
     ];
 
     const dateObj = new Date(date);
     const day = dateObj.getDate();
     const month = months[dateObj.getMonth()];
     const year = dateObj.getFullYear();
-    const hours = dateObj.getHours().toString().padStart(2, '0');
-    const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+    const hours = dateObj.getHours().toString().padStart(2, "0");
+    const minutes = dateObj.getMinutes().toString().padStart(2, "0");
 
     return `${day} ${month} ${year} г. в ${hours}:${minutes}`;
   }
@@ -168,8 +188,9 @@ class TransactionsPage {
       <div class="transaction__info">
           <h4 class="transaction__title">${item.name}</h4>
           <!-- дата -->
-          <div class="transaction__date">${
-        this.formatDate(item.created_at)}</div>
+          <div class="transaction__date">${this.formatDate(
+            item.created_at
+          )}</div>
       </div>
     </div>
     <div class="col-md-3">
@@ -192,9 +213,10 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(data) {
-    data.forEach(el => {
-      this.element.querySelector('.content')
-          .insertAdjacentHTML('beforeend', this.getTransactionHTML(el));
+    data.forEach((el) => {
+      this.element
+        .querySelector(".content")
+        .insertAdjacentHTML("beforeend", this.getTransactionHTML(el));
     });
   }
 }
