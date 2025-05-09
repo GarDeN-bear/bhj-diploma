@@ -4,19 +4,22 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  static URL = '/user';
+  static URL = "/user";
 
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    localStorage.setItem('user', JSON.stringify({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    }));
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      })
+    );
   }
 
   /**
@@ -24,7 +27,7 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
   }
 
   /**
@@ -32,8 +35,11 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    if (localStorage.getItem('user')) {
-      return JSON.parse(localStorage.getItem('user'));
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      return JSON.parse(userStr);
+    } else {
+      return null;
     }
   }
 
@@ -43,8 +49,8 @@ class User {
    * */
   static fetch(callback) {
     createRequest({
-      url: this.URL + '/current',
-      method: 'GET',
+      url: this.URL + "/current",
+      method: "GET",
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);
@@ -52,7 +58,7 @@ class User {
           this.unsetCurrent();
         }
         callback(err, response);
-      }
+      },
     });
   }
 
@@ -64,16 +70,16 @@ class User {
    * */
   static login(data, callback) {
     createRequest({
-      url: this.URL + '/login',
-      method: 'POST',
-      responseType: 'json',
+      url: this.URL + "/login",
+      method: "POST",
+      responseType: "json",
       data,
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);
         }
         callback(err, response);
-      }
+      },
     });
   }
 
@@ -85,17 +91,17 @@ class User {
    * */
   static register(data, callback) {
     createRequest({
-      url: this.URL + '/register',
-      method: 'POST',
+      url: this.URL + "/register",
+      method: "POST",
       data,
       callback: (err, response) => {
         if (response.success) {
           let user = response.user;
-          user['password'] = data.password;
+          user["password"] = data.password;
           this.setCurrent(user);
         }
         callback(err, response);
-      }
+      },
     });
   }
 
@@ -105,15 +111,15 @@ class User {
    * */
   static logout(callback) {
     createRequest({
-      url: this.URL + '/logout',
-      method: 'POST',
+      url: this.URL + "/logout",
+      method: "POST",
       data: this.current(),
       callback: (err, response) => {
         if (response.success) {
           this.unsetCurrent();
         }
         callback(err, response);
-      }
+      },
     });
   }
 }
